@@ -20,7 +20,7 @@ services:
     volumes:
       - ./backend:/code
     environment:
-      - DATABASE_URL=postgresql://user_admin:password123@db:5432/user_db
+      - DATABASE_URL=postgresql+asyncpg://user_admin:password123@database:5432/user_db
     depends_on:
       - database
 
