@@ -7,13 +7,12 @@ class UserBase(BaseModel):
     email: EmailStr = Field(..., examples=["donations-wanted@hakurei.jp", "daze@kirisame.jp"])
 
 class UserCreate(UserBase):
-    # password: str = Field(..., min_length=8, examples=["100YenOrBust!", "MasterSpark_8oz"])
-    pass
+    password: str = Field(..., min_length=8, examples=["100YenOrBust!", "MasterSpark_8oz"])
 
 class UserUpdate(BaseModel):
     name: Optional[str] = Field(None, min_length=3, max_length=100)
     email: Optional[EmailStr] = None
-    # password: Optional[str] = Field(None, min_length=8)
+    password: Optional[str] = Field(None, min_length=8)
 
 class UserResponse(UserBase):
     id: int
