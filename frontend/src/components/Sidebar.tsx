@@ -11,18 +11,18 @@ export function Sidebar() {
         borderRight="1px solid" 
         borderColor="gray.200"
       >
-        <Heading size="md" mb="10" color="teal.500">
+        <Heading size="md" mb="10" color="purple.500">
           Admin Panel
         </Heading>
 
         <Stack gap="4" align="stretch">
-          <Link asChild _hover={{ textDecor: 'none', color: 'teal.500' }}>
+          <Link asChild _hover={{ textDecor: 'none', color: 'purple.750' }}>
             <RouterLink to="/">
               <Text fontWeight="bold">Dashboard</Text>
             </RouterLink>
           </Link>
 
-          <Link asChild _hover={{ textDecor: 'none', color: 'teal.500' }}>
+          <Link asChild _hover={{ textDecor: 'none', color: 'purple.750' }}>
             <RouterLink to="/users">
               <Text fontWeight="bold">Usuários</Text>
             </RouterLink>
