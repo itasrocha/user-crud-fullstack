@@ -5,3 +5,4 @@ venv/
 .pytest_cache
 crud-fullstack.code-workspace
 .vscode
+TODO.txt
