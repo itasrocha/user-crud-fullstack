@@ -45,7 +45,7 @@ export function Users() {
 
       {isLoading ? (
         <HStack justifyContent="center" py="10">
-          <Spinner size="xl" color="teal.500" />
+          <Spinner size="xl" color="purple.500" />
         </HStack>
       ) : error ? (
         <Text color="red.500" textAlign="center">
@@ -54,7 +54,7 @@ export function Users() {
       ) : (
         <Box overflowX="auto" border="1px solid" borderColor="gray.200" borderRadius="md">
           <Table.Root variant="line" interactive>
-            <Table.Header bg="gray.50">
+            <Table.Header>
               <Table.Row>
                 <Table.ColumnHeader>ID</Table.ColumnHeader>
                 <Table.ColumnHeader>Nome</Table.ColumnHeader>

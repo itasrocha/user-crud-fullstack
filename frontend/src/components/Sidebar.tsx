@@ -6,10 +6,7 @@ export function Sidebar() {
     <Flex minH="100vh">
       <Box 
         w="250px" 
-        bg="gray.100" 
         p="5" 
-        borderRight="1px solid" 
-        borderColor="gray.200"
       >
         <Heading size="md" mb="10" color="purple.500">
           Admin Panel
@@ -31,7 +28,7 @@ export function Sidebar() {
         </Stack>
       </Box>
 
-      <Box flex="1" p="8" bg="white">
+      <Box flex="1" p="8">
         <Outlet />
       </Box>
     </Flex>
