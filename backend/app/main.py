@@ -5,7 +5,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.exc import IntegrityError, OperationalError
 
 from app.core.database import engine, Base
-from app.api.endpoints import users 
+from app.api.v1.endpoints import users, auth
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -13,7 +13,7 @@ async def lifespan(app: FastAPI):
         await conn.run_sync(Base.metadata.create_all)
     yield
 
-app = FastAPI(title="CRUD de Usuários", lifespan=lifespan)
+app = FastAPI(title="User CRUD", lifespan=lifespan)
 
 origins = [
     "http://localhost:5173",
@@ -50,6 +50,7 @@ async def global_exception_handler(request: Request, exc: Exception):
     )
 
 app.include_router(users.router, prefix="/users", tags=["users"])
+app.include_router(auth.router, prefix="/auth", tags=["auth"])
 
 @app.get("/")
 def read_root():

@@ -15,6 +15,6 @@ class Base(DeclarativeBase):
     pass
 
 # Dependency Injection
-async def get_db():
+async def get_session():
     async with AsyncSessionLocal() as session:
         yield session

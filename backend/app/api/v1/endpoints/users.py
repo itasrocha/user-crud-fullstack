@@ -1,16 +1,13 @@
 from typing import List
 from fastapi import APIRouter, Depends, status, Query
-from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.core.database import get_db
+from app.api.dependencies import get_user_repository, get_current_user
 from app.schemas.user import UserCreate, UserResponse, UserUpdate
+from app.models.user import UserModel
 from app.services.user_service import UserService
 from app.repositories.user_repository import UserRepository
 
 router = APIRouter()
-
-def get_user_repository(db: AsyncSession = Depends(get_db)) -> UserRepository:
-    return UserRepository(db)
 
 def get_user_service(repository: UserRepository = Depends(get_user_repository)) -> UserService:
     return UserService(repository)
@@ -35,7 +32,7 @@ async def read_users(
 # --- READ ONE ---
 @router.get("/{user_id}", response_model=UserResponse)
 async def read_user(
-    user_id: int, 
+    user_id: int,
     service: UserService = Depends(get_user_service)
 ):
     return await service.get_user_by_id(user_id)
