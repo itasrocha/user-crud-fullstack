@@ -36,15 +36,15 @@ class TestCreateUser:
     async def test_create_user_duplicate_email(self, async_client):
         """
         Cenário: Tentar criar um usuário com email duplicado.
-        Expectativa: 400 Bad Request.
+        Expectativa: 409 Conflict.
         """
         email = "flandre@scarlet.jp"
         await create_user_helper(async_client, name="Flan_001", email=email, password="495Years_BearBust")
         
         response = await create_user_helper(async_client, name="Flan_002", email=email, password="495Years_BearBust")
 
-        assert response.status_code == status.HTTP_400_BAD_REQUEST
-        assert response.json()["detail"] == "Email already registered"
+        assert response.status_code == status.HTTP_409_CONFLICT
+        assert response.json()["detail"] == "User with this email already exists"
 
 
 @pytest.mark.asyncio

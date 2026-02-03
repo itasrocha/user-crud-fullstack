@@ -6,6 +6,7 @@ from sqlalchemy.exc import IntegrityError, OperationalError
 
 from app.core.database import engine, Base
 from app.api.v1.endpoints import users, auth
+from app.core.setup import create_application
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -13,13 +14,9 @@ async def lifespan(app: FastAPI):
         await conn.run_sync(Base.metadata.create_all)
     yield
 
-app = FastAPI(title="User CRUD", lifespan=lifespan)
+app = create_application()
 
-origins = [
-    "http://localhost:5173",
-    "http://127.0.0.1:5173",
-]
-
+origins = ["http://localhost:5173","http://127.0.0.1:5173",]
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
@@ -27,27 +24,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-@app.exception_handler(IntegrityError)
-async def integrity_error_handler(request: Request, exc: IntegrityError):
-    return JSONResponse(
-        status_code=status.HTTP_409_CONFLICT,
-        content={"detail": "Integrity Error"}
-    )
-
-@app.exception_handler(OperationalError)
-async def operational_error_handler(request: Request, exc: OperationalError):
-    return JSONResponse(
-        status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
-        content={"detail": "Operational Error"}
-    )
-
-@app.exception_handler(Exception)
-async def global_exception_handler(request: Request, exc: Exception):
-    return JSONResponse(
-        status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-        content={"detail": "Error"}
-    )
 
 app.include_router(users.router, prefix="/users", tags=["users"])
 app.include_router(auth.router, prefix="/auth", tags=["auth"])
