@@ -21,6 +21,7 @@ services:
       - ./backend:/code
     environment:
       - DATABASE_URL=postgresql+asyncpg://user_admin:password123@database:5432/user_db
+      - SECRET_KEY=sua-chave-secreta-aqui
     depends_on:
       - database
 

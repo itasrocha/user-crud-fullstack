@@ -77,6 +77,7 @@ A aplicação vem com variáveis de ambiente padrão configuradas no `docker-com
 
 **Backend (`docker-compose.yml`)**:
 - `DATABASE_URL`: `postgresql+asyncpg://user_admin:password123@database:5432/user_db`
+- `SECRET_KEY`: `sua-chave-secreta-aqui` (mude para uma chave segura)
 
 **Frontend**:
 - Usa a configuração padrão do Vite. Certifique-se de que a URL do backend esteja configurada corretamente se rodar fora da rede do Docker (padrão é `http://localhost:8000`).
