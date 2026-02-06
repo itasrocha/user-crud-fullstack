@@ -9,7 +9,7 @@ from app.core.database import get_session
 from app.core.config import settings
 from app.models.user import UserModel
 from app.repositories.user_repository import UserRepository
-from app.schemas.auth import TokenPayload
+from app.schemas.auth import TokenPayload, TokenType
 from app.core.exceptions import InvalidCredentialsError, ResourceNotFoundError
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/v1/auth/login")
@@ -27,6 +27,9 @@ async def get_current_user_id(
         raise InvalidCredentialsError()
 
     if token_payload.sub is None:
+        raise InvalidCredentialsError()
+    
+    if token_payload.type != TokenType.ACCESS:
         raise InvalidCredentialsError()
         
     return int(token_payload.sub)

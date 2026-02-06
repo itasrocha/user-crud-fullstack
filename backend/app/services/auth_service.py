@@ -3,13 +3,32 @@ from pydantic import ValidationError
 
 from app.core.config import settings
 from app.repositories.user_repository import UserRepository
-from app.core.security import verify_password, create_access_token, create_refresh_token
+from app.core.security import verify_password, create_access_token, create_refresh_token, get_password_hash
 from app.schemas.auth import Token, TokenType, TokenPayload
-from app.core.exceptions import InvalidCredentialsError
+from app.schemas.user import UserCreate
+from app.models.user import UserModel
+from app.core.exceptions import InvalidCredentialsError, EmailAlreadyRegisteredError
 
 class AuthService:
     def __init__(self, user_repository: UserRepository):
         self.user_repository = user_repository
+
+    async def register_user(self, user_data: UserCreate) -> Token:
+        if await self.user_repository.get_by_email(user_data.email):
+            raise EmailAlreadyRegisteredError()
+        
+        hashed_pw = get_password_hash(user_data.password)
+        user = UserModel(
+            name=user_data.name,
+            email=user_data.email,
+            password_hash=hashed_pw
+        )
+        created_user = await self.user_repository.create(user)
+        
+        return Token(
+            access_token=create_access_token(created_user.id),
+            refresh_token=create_refresh_token(created_user.id),
+        )
 
     async def authenticate_user(self, email: str, password: str) -> Token:
         user = await self.user_repository.get_by_email(email)

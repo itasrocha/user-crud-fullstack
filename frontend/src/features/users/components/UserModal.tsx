@@ -35,10 +35,10 @@ export function UserModal({ isOpen, onClose, userToEdit }: UserModalProps) {
     if (isOpen) {
       if (userToEdit) {
         reset({
-            name: userToEdit.name, 
-            email: userToEdit.email, 
-            password: ""
-        }); 
+          name: userToEdit.name,
+          email: userToEdit.email,
+          password: ""
+        });
       } else {
         reset({ name: "", email: "", password: "" });
       }
@@ -48,7 +48,12 @@ export function UserModal({ isOpen, onClose, userToEdit }: UserModalProps) {
   const onSubmit = async (data: UserFormData) => {
     try {
       if (isEditing && userToEdit) {
-        await updateUserMutation.mutateAsync({ id: userToEdit.id, data });
+        const updateData = {
+          name: data.name,
+          email: data.email,
+          ...(data.password && { password: data.password })
+        };
+        await updateUserMutation.mutateAsync({ id: userToEdit.id, data: updateData });
       } else {
         await createUserMutation.mutateAsync(data);
       }
@@ -102,7 +107,7 @@ export function UserModal({ isOpen, onClose, userToEdit }: UserModalProps) {
 
           <Field.Root invalid={!!errors.password}>
             <Field.Label>
-                 {isEditing ? "Nova Senha (Opcional)" : "Senha"}
+              {isEditing ? "Nova Senha (Opcional)" : "Senha"}
             </Field.Label>
             <Input
               type="password"
