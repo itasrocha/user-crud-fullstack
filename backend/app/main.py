@@ -15,6 +15,7 @@ async def lifespan(app: FastAPI):
     yield
 
 app = create_application()
+app.router.lifespan_context = lifespan
 
 origins = ["http://localhost:5173","http://127.0.0.1:5173",]
 app.add_middleware(
