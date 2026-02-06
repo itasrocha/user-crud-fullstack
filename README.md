@@ -33,7 +33,7 @@ O projeto segue uma arquitetura modular e escalável:
 
 ---
 
-## 🚀 Começando com Docker
+## 🚀 Rodando com Docker
 
 Você pode rodar toda a stack usando Docker Compose.
 
@@ -44,14 +44,14 @@ Você pode rodar toda a stack usando Docker Compose.
 
 1. **Clone o repositório** (se ainda não o fez):
    ```bash
-   git clone <url-do-repositorio>
-   cd <pasta-do-repositorio>
+   git clone https://github.com/itasrocha/user-crud-fullstack
+   cd user-crud-fullstack
    ```
 
 2. **Inicie os containers**:
    Rode o seguinte comando no diretório raiz:
    ```bash
-   docker-compose up --build
+   docker compose up --build
    ```
 
    Isso iniciará três serviços:
@@ -68,7 +68,7 @@ Você pode rodar toda a stack usando Docker Compose.
 
 Para parar os containers, pressione `Ctrl+C` no terminal ou rode:
 ```bash
-docker-compose down
+docker compose down
 ```
 
 ### Variáveis de Ambiente
