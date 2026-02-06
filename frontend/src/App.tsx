@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Sidebar } from "./components/Sidebar";
+import { Sidebar } from "./components/layouts/Sidebar";
 import { Dashboard } from "./pages/Dashboard";
 import { Users } from "./pages/Users";
 
