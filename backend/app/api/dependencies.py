@@ -12,7 +12,7 @@ from app.repositories.user_repository import UserRepository
 from app.schemas.auth import TokenPayload, TokenType
 from app.core.exceptions import InvalidCredentialsError, ResourceNotFoundError
 
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/v1/auth/login")
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/v1/auth/login")
 
 async def get_user_repository(db: AsyncSession = Depends(get_session)) -> UserRepository:
     return UserRepository(db)
