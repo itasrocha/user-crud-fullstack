@@ -4,12 +4,11 @@ import { useEffect } from "react";
 import { ModalTemplate } from "../../../components/templates/ModalTemplate";
 import { useCreateUser } from "../hooks/useCreateUser";
 import { useUpdateUser } from "../hooks/useUpdateUser";
-import type { User } from "../types/user";
+import type { User, UserCreate, UserUpdate } from "../types/user";
 
-interface UserFormData {
-  name: string;
-  email: string;
-  password: string;
+// Combine Create and Update types for the form, making password optional for updates
+interface UserFormData extends Omit<UserCreate, 'password'> {
+  password?: string;
 }
 
 interface UserModalProps {
@@ -48,14 +47,18 @@ export function UserModal({ isOpen, onClose, userToEdit }: UserModalProps) {
   const onSubmit = async (data: UserFormData) => {
     try {
       if (isEditing && userToEdit) {
-        const updateData = {
+        const updateData: UserUpdate = {
           name: data.name,
           email: data.email,
-          ...(data.password && { password: data.password })
         };
+        if (data.password) {
+            updateData.password = data.password;
+        }
+
         await updateUserMutation.mutateAsync({ id: userToEdit.id, data: updateData });
       } else {
-        await createUserMutation.mutateAsync(data);
+        // Cast to UserCreate because password is required for creation
+        await createUserMutation.mutateAsync(data as UserCreate);
       }
       onClose();
     } catch (error) {
