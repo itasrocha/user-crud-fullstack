@@ -41,3 +41,29 @@ async def async_client(db_session):
         yield client
     
     app.dependency_overrides.clear()
+
+@pytest_asyncio.fixture
+async def test_user(async_client):
+    user_data = {
+        "name": "Yakumo Yukari",
+        "email": "trains@gap.jp",
+        "password": "Ran_is_my_pet"
+    }
+    response = await async_client.post("/v1/auth/register", json=user_data)
+    assert response.status_code == 200
+    
+    return user_data
+
+@pytest_asyncio.fixture
+async def auth_token(async_client, test_user):
+    response = await async_client.post("/v1/auth/login", data={
+        "username": test_user["email"],
+        "password": test_user["password"]
+    })
+    assert response.status_code == 200
+    return response.json()["access_token"]
+
+@pytest_asyncio.fixture
+async def authorized_client(async_client, auth_token):
+    async_client.headers = {**async_client.headers, "Authorization": f"Bearer {auth_token}"}
+    return async_client
