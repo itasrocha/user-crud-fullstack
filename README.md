@@ -7,6 +7,7 @@ Uma aplicação web full-stack moderna para gerenciamento de usuários com auten
 O projeto segue uma arquitetura modular e escalável:
 
 ### Frontend (React + TypeScript)
+
 - **Framework**: React com Vite
 - **Biblioteca de UI**: Chakra UI
 - **Gerenciamento de Estado**: React Query (Estado do Servidor), Context API (Estado de Autenticação)
@@ -17,6 +18,7 @@ O projeto segue uma arquitetura modular e escalável:
   - `services/`: Integração com API
 
 ### Backend (FastAPI + Python)
+
 - **Framework**: FastAPI
 - **Banco de Dados**: PostgreSQL (Async via SQLAlchemy + asyncpg)
 - **Autenticação**: JWT (JSON Web Tokens) com fluxo de senha OAuth2
@@ -29,55 +31,56 @@ O projeto segue uma arquitetura modular e escalável:
   - `models/`: Modelos de banco de dados SQLAlchemy
 
 ### Banco de Dados
+
 - **PostgreSQL**: Banco de dados relacional rodando em um container Docker.
 
 ---
 
-## 🚀 Rodando com Docker
+## 🚀 Rodando o Projeto
 
-Você pode rodar toda a stack usando Docker Compose.
+O projeto utiliza um `Makefile` para simplificar o gerenciamento dos containers Docker.
 
 ### Pré-requisitos
+
 - [Docker](https://www.docker.com/) e [Docker Compose](https://docs.docker.com/compose/) instalados.
+- `make` instalado (geralmente já vem no Linux/macOS).
 
-### Executando a Aplicação
+### Executando com comando único (Recomendado)
 
-1. **Clone o repositório** (se ainda não o fez):
-   ```bash
-   git clone https://github.com/itasrocha/user-crud-fullstack
-   cd user-crud-fullstack
-   ```
+Basta rodar o comando abaixo na raiz do projeto:
 
-2. **Inicie os containers**:
-   Rode o seguinte comando no diretório raiz:
-   ```bash
-   docker compose up --build
-   ```
-
-   Isso iniciará três serviços:
-   - `database` (PostgreSQL)
-   - `backend` (FastAPI)
-   - `frontend` (React)
-
-3. **Acesse a Aplicação**:
-   - **Frontend**: [http://localhost:5173](http://localhost:5173)
-   - **Docs da API Backend**: [http://localhost:8000/docs](http://localhost:8000/docs)
-   - **Banco de Dados**: Porta `5432`
-
-### Parando a Aplicação
-
-Para parar os containers, pressione `Ctrl+C` no terminal ou rode:
 ```bash
-docker compose down
+make build && make up
 ```
+
+Este comando irá:
+
+1. Criar automaticamente o arquivo `.env` a partir do `.env.example` (se não existir).
+2. Iniciar todos os containers em modo _detached_.
+
+### Outros Comandos Úteis
+
+| Comando              | Descrição                                     |
+| :------------------- | :-------------------------------------------- |
+| `make help`          | Lista todos os comandos disponíveis           |
+| `make down`          | Para e remove os containers                   |
+| `make logs`          | Visualiza os logs em tempo real               |
+| `make ps`            | Verifica o status dos serviços                |
+| `make test`          | Executa os testes do backend dentro do Docker |
+| `make db-shell`      | Acessa o shell do PostgreSQL                  |
+| `make backend-shell` | Acessa o shell do backend                     |
 
 ### Variáveis de Ambiente
 
-A aplicação vem com variáveis de ambiente padrão configuradas no `docker-compose.yml` para conveniência de desenvolvimento.
+O projeto agora gerencia configurações através de um arquivo `.env`.
+Ao rodar `make up`, um arquivo `.env` inicial é criado automaticamente com valores padrão seguros para desenvolvimento local.
 
-**Backend (`docker-compose.yml`)**:
-- `DATABASE_URL`: `postgresql+asyncpg://user_admin:password123@database:5432/user_db`
-- `SECRET_KEY`: `sua-chave-secreta-aqui` (mude para uma chave segura)
+Para customizar as credenciais do banco ou a `SECRET_KEY`, edite o arquivo `.env` criado.
 
-**Frontend**:
-- Usa a configuração padrão do Vite. Certifique-se de que a URL do backend esteja configurada corretamente se rodar fora da rede do Docker (padrão é `http://localhost:8000`).
+---
+
+### Acesso à Aplicação
+
+- **Frontend**: [http://localhost:5173](http://localhost:5173)
+- **Docs da API Backend (Swagger)**: [http://localhost:8000/docs](http://localhost:8000/docs)
+- **Health Check**: [http://localhost:8000/health](http://localhost:8000/health)
