@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { Box, Heading, Spinner, Text, HStack, Button } from "@chakra-ui/react";
 import { FaPlus } from "react-icons/fa";
-import { UserModal } from "../features/users/components/UserModal";
+import { CreateUserModal } from "../features/users/components/CreateUserModal";
+import { UpdateUserModal } from "../features/users/components/UpdateUserModal";
 import { UserTable } from "../features/users/components/UserTable";
 import { useUsers } from "../features/users/hooks/useUsers";
 import type { User } from "../features/users/types/user";
@@ -45,11 +46,18 @@ export function Users() {
         />
       )}
 
-      <UserModal 
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        userToEdit={selectedUser}
-      />
+      {selectedUser ? (
+        <UpdateUserModal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          userToEdit={selectedUser}
+        />
+      ) : (
+        <CreateUserModal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+        />
+      )}
     </Box>
   );
 }
