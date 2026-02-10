@@ -14,6 +14,10 @@ help:
 	@echo "  make clean          - Remove unused Docker images and volumes"
 
 up:
+	@if [ ! -f .env ]; then \
+		echo "Creating .env from .env.example..."; \
+		cp .env.example .env; \
+	fi
 	docker compose up -d
 
 down:

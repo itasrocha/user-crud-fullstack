@@ -29,6 +29,10 @@ app.add_middleware(
 app.include_router(users.router, prefix="/v1/users", tags=["users"])
 app.include_router(auth.router, prefix="/v1/auth", tags=["auth"])
 
+@app.get("/health")
+def health_check():
+    return {"status": "ok"}
+
 @app.get("/")
 def read_root():
     return {"status": "ok"}
