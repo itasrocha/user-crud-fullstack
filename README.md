@@ -23,6 +23,8 @@ O projeto segue uma arquitetura modular e escalável:
 
 ### Backend (FastAPI + Python)
 
+![API Documentation](screenshots/api.png)
+
 - **Framework**: FastAPI
 - **Banco de Dados**: PostgreSQL (Async via SQLAlchemy + asyncpg)
 - **Autenticação**: JWT (JSON Web Tokens) com fluxo de senha OAuth2
@@ -33,8 +35,6 @@ O projeto segue uma arquitetura modular e escalável:
   - `repositories/`: Camada de acesso ao banco de dados
   - `schemas/`: Modelos Pydantic para validação
   - `models/`: Modelos de banco de dados SQLAlchemy
-
-![API Documentation](screenshots/api.png)
 
 ### Banco de Dados
 
