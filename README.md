@@ -2,11 +2,15 @@
 
 Uma aplicação web full-stack moderna para gerenciamento de usuários com autenticação, construída com **React (Frontend)** e **FastAPI (Backend)**.
 
+![Project Demo](screenshots/demo.gif)
+
 ## 🏗 Arquitetura
 
 O projeto segue uma arquitetura modular e escalável:
 
 ### Frontend (React + TypeScript)
+
+![Users Table](screenshots/users_table.png)
 
 - **Framework**: React com Vite
 - **Biblioteca de UI**: Chakra UI
@@ -29,6 +33,8 @@ O projeto segue uma arquitetura modular e escalável:
   - `repositories/`: Camada de acesso ao banco de dados
   - `schemas/`: Modelos Pydantic para validação
   - `models/`: Modelos de banco de dados SQLAlchemy
+
+![API Documentation](screenshots/api.png)
 
 ### Banco de Dados
 
@@ -60,15 +66,16 @@ Este comando irá:
 
 ### Outros Comandos Úteis
 
-| Comando              | Descrição                                     |
-| :------------------- | :-------------------------------------------- |
-| `make help`          | Lista todos os comandos disponíveis           |
-| `make down`          | Para e remove os containers                   |
-| `make logs`          | Visualiza os logs em tempo real               |
-| `make ps`            | Verifica o status dos serviços                |
-| `make test`          | Executa os testes do backend dentro do Docker |
-| `make db-shell`      | Acessa o shell do PostgreSQL                  |
-| `make backend-shell` | Acessa o shell do backend                     |
+| Comando              | Descrição                                        |
+| :------------------- | :----------------------------------------------- |
+| `make help`          | Lista todos os comandos disponíveis              |
+| `make down`          | Para e remove os containers                      |
+| `make logs`          | Visualiza os logs em tempo real                  |
+| `make ps`            | Verifica o status dos serviços                   |
+| `make test`          | Executa os testes do backend dentro do Docker    |
+| `make seed-db`       | Preenche a tabela de usuários com dados de teste |
+| `make db-shell`      | Acessa o shell do PostgreSQL                     |
+| `make backend-shell` | Acessa o shell do backend                        |
 
 ### Variáveis de Ambiente
 
