@@ -1,4 +1,4 @@
-.PHONY: help up down build logs ps backend-shell frontend-shell db-shell test clean
+.PHONY: help up down build logs ps backend-shell frontend-shell db-shell test clean seed-db
 
 help:
 	@echo "Available commands:"
@@ -11,6 +11,7 @@ help:
 	@echo "  make frontend-shell - Open a shell in the frontend container"
 	@echo "  make db-shell       - Open a shell in the database container (psql)"
 	@echo "  make test           - Run backend tests inside Docker"
+	@echo "  make seed-db        - Populate database with test data"
 	@echo "  make clean          - Remove unused Docker images and volumes"
 
 up:
@@ -43,6 +44,9 @@ db-shell:
 
 test:
 	docker compose exec backend python -m pytest -v
+
+seed-db:
+	docker compose exec backend python scripts/seed_db.py
 
 clean:
 	docker system prune -f
