@@ -2,46 +2,26 @@ import { useState } from 'react';
 import { useNavigate, Link as RouterLink } from 'react-router-dom';
 import {
     Box,
-    Button,
     Container,
     Heading,
-    Input,
     Stack,
     Text,
     Link,
-    Field,
 } from '@chakra-ui/react';
 import { useAuth } from '../features/auth/hooks/useAuth';
+import { RegisterForm } from '../features/auth/components/RegisterForm';
+import type { RegisterSubmitData } from '../features/auth/components/RegisterForm';
 
 export function RegisterPage() {
-    const [name, setName] = useState('');
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [confirmPassword, setConfirmPassword] = useState('');
     const [error, setError] = useState('');
-    const [isLoading, setIsLoading] = useState(false);
 
     const { register } = useAuth();
     const navigate = useNavigate();
 
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
+    const handleRegister = async (data: RegisterSubmitData) => {
         setError('');
-
-        if (password !== confirmPassword) {
-            setError('As senhas não coincidem');
-            return;
-        }
-
-        if (password.length < 8) {
-            setError('A senha deve ter pelo menos 8 caracteres');
-            return;
-        }
-
-        setIsLoading(true);
-
         try {
-            await register({ name, email, password });
+            await register(data);
             navigate('/', { replace: true });
         } catch (err: unknown) {
             if (err && typeof err === 'object' && 'response' in err) {
@@ -54,8 +34,6 @@ export function RegisterPage() {
             } else {
                 setError('Erro ao criar conta. Tente novamente.');
             }
-        } finally {
-            setIsLoading(false);
         }
     };
 
@@ -86,87 +64,7 @@ export function RegisterPage() {
                             </Text>
                         </Box>
 
-                        <form onSubmit={handleSubmit}>
-                            <Stack gap={4}>
-                                <Field.Root>
-                                    <Field.Label color="gray.300">Nome</Field.Label>
-                                    <Input
-                                        type="text"
-                                        value={name}
-                                        onChange={(e) => setName(e.target.value)}
-                                        placeholder="Seu nome completo"
-                                        bg="gray.700"
-                                        border="none"
-                                        color="white"
-                                        _placeholder={{ color: 'gray.500' }}
-                                        minLength={3}
-                                        required
-                                    />
-                                </Field.Root>
-
-                                <Field.Root>
-                                    <Field.Label color="gray.300">Email</Field.Label>
-                                    <Input
-                                        type="email"
-                                        value={email}
-                                        onChange={(e) => setEmail(e.target.value)}
-                                        placeholder="seu@email.com"
-                                        bg="gray.700"
-                                        border="none"
-                                        color="white"
-                                        _placeholder={{ color: 'gray.500' }}
-                                        required
-                                    />
-                                </Field.Root>
-
-                                <Field.Root>
-                                    <Field.Label color="gray.300">Senha</Field.Label>
-                                    <Input
-                                        type="password"
-                                        value={password}
-                                        onChange={(e) => setPassword(e.target.value)}
-                                        placeholder="Mínimo 8 caracteres"
-                                        bg="gray.700"
-                                        border="none"
-                                        color="white"
-                                        _placeholder={{ color: 'gray.500' }}
-                                        required
-                                    />
-                                </Field.Root>
-
-                                <Field.Root>
-                                    <Field.Label color="gray.300">Confirmar Senha</Field.Label>
-                                    <Input
-                                        type="password"
-                                        value={confirmPassword}
-                                        onChange={(e) => setConfirmPassword(e.target.value)}
-                                        placeholder="Repita a senha"
-                                        bg="gray.700"
-                                        border="none"
-                                        color="white"
-                                        _placeholder={{ color: 'gray.500' }}
-                                        required
-                                    />
-                                </Field.Root>
-
-                                {error && (
-                                    <Text color="red.400" fontSize="sm" textAlign="center">
-                                        {error}
-                                    </Text>
-                                )}
-
-                                <Button
-                                    type="submit"
-                                    colorPalette="purple"
-                                    size="lg"
-                                    width="full"
-                                    loading={isLoading}
-                                    loadingText="Criando conta..."
-                                >
-                                    Cadastrar
-                                </Button>
-                            </Stack>
-                        </form>
+                        <RegisterForm onSubmit={handleRegister} error={error} />
 
                         <Text textAlign="center" color="gray.400">
                             Já tem uma conta?{' '}
