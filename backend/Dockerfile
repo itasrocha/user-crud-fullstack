@@ -31,5 +31,5 @@ CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload
 # Production
 FROM base AS production
 RUN poetry install --no-root --only main
-COPY . .
+COPY ./app ./app
 CMD ["gunicorn", "app.main:app", "--workers", "4", "--worker-class", "uvicorn.workers.UvicornWorker", "--bind", "0.0.0.0:8000"]
