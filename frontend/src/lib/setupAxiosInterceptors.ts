@@ -19,16 +19,39 @@ function isHandled(url: string | undefined, status: number | undefined): boolean
     );
 }
 
+function extractErrorMessage(detail: unknown, fallback: string): string {
+    if (typeof detail === 'string') {
+        return detail;
+    }
+
+    if (Array.isArray(detail) && detail.length > 0) {
+        return detail
+            .map((err) => {
+                if (typeof err === 'string') return err;
+                if (typeof err?.msg === 'string') return err.msg;
+                return JSON.stringify(err);
+            })
+            .join('; ');
+    }
+
+    if (detail != null && typeof detail === 'object') {
+        return JSON.stringify(detail);
+    }
+
+    return fallback;
+}
+
 function showErrorToast(error: unknown): void {
     if (!axios.isAxiosError(error)) return;
 
     const status = error.response?.status;
     const detail = error.response?.data?.detail;
+    const errorMessage = extractErrorMessage(detail, error.message);
 
     if (status) {
         toaster.create({
             title: `Erro ${status}`,
-            description: detail || error.message,
+            description: errorMessage,
             type: 'error',
         });
     } else {
