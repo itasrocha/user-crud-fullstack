@@ -2,13 +2,18 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Sidebar } from "./components/layouts/Sidebar";
 import { Dashboard } from "./pages/Dashboard";
 import { Users } from "./pages/Users";
+import { Toaster } from "./components/ui/toaster";
 import { LoginPage } from "./pages/LoginPage";
 import { RegisterPage } from "./pages/RegisterPage";
 import { ProtectedRoute } from "./features/auth/components/ProtectedRoute";
+import { setupAxiosInterceptors } from "./lib/setupAxiosInterceptors";
+
+setupAxiosInterceptors();
 
 function App() {
   return (
     <BrowserRouter>
+      <Toaster />
       <Routes>
         {/* Public routes */}
         <Route path="/login" element={<LoginPage />} />
